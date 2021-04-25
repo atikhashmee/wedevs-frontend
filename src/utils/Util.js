@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+
 export function getParameterByName(name, url = window.location.href)  {
     name = name.replace(/[\[\]]/g, '\\$&');
     var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -20,3 +22,5 @@ export function getData(name=null) {
     }
     return JSON.parse(allData);
 }
+
+export const AppContext = React.createContext();

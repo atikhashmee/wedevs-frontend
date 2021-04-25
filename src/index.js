@@ -5,10 +5,13 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 import reportWebVitals from './reportWebVitals';
+import AppPro from './providers/AppPro'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppPro>
+      <App />
+    </AppPro>
   </React.StrictMode>,
   document.getElementById('root')
 );

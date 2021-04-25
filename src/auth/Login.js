@@ -47,7 +47,7 @@ function Login() {
             putData(res.data, 'auth');
             setSuccesMessage(res.message+" , Please wait, we will redirect you")
             setTimeout(() => {
-               window.location.href = window.location.origin+"/dashboard"
+               window.location.href = window.location.origin+"/"
             }, 1000);
          } else {
             setErrorMessage(res.data);

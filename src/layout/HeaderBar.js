@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link
   } from "react-router-dom";
-import Dashborad  from '../Dashborad';
 import Orders  from '../Orders';
 import Home from '../Home';
 import Login from '../auth/Login'
 import Register from '../auth/Register'
+import {AppContext} from '../utils/Util'
 
 function HeaderBar() {
+  const {auth, logout} = useContext(AppContext);
+  useEffect(()=>{
+    console.log(auth, 'asdfssss')
+  },[auth])
     return (<Router>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -25,30 +29,27 @@ function HeaderBar() {
                         <Link to="/" className="nav-link active">Home</Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/dashboard" className="nav-link ">Dashboard</Link>
-                    </li>
-                    <li className="nav-item">
                         <Link to="/orders" className="nav-link ">Orders</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link to="/login" className="nav-link ">Login</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/register" className="nav-link ">Register</Link>
-                    </li>
-                    <li className="nav-item dropdown">
+                    {(auth && auth.auth_token == "") && ( <>
+                      <li className="nav-item">
+                          <Link to="/login" className="nav-link ">Login</Link>
+                      </li>
+                      <li className="nav-item">
+                          <Link to="/register" className="nav-link ">Register</Link>
+                      </li>
+
+                    </>)}
+                    {(auth && auth.auth_token !== "") && <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
+                        Account
                         </a>
                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a className="dropdown-item" href="#">Action</a></li>
-                        <li><a className="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr className="dropdown-divider" />
-                        </li>
-                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                        <li><a className="dropdown-item" href="#">Profile</a></li>
+                        <li><a className="dropdown-item" onClick={()=>{logout()}}  href="Javascript:void(0)" >Logout</a></li>
                         </ul>
-                    </li>
+                    </li>}
+                    
                 </ul>
             </div>
             </div>
@@ -57,9 +58,6 @@ function HeaderBar() {
         <Switch>
           <Route exact path="/">
                 <Home />
-          </Route>
-          <Route path="/dashboard">
-            <Dashborad />
           </Route>
           <Route path="/orders">
             <Orders />
