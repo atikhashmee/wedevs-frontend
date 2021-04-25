@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+let baseUrl = process.env.REACT_APP_.BASE_URL;
 
 function Register() {
     const [regForm, setRegForm] = useState({
@@ -14,6 +15,10 @@ function Register() {
       setRegForm({...regForm,  [obj.currentTarget.name]: obj.currentTarget.value});
     }
 
+    useEffect(()=>{
+      console.log(err, new URL(window.location.href), 'FFFF')
+    }, [err])
+
     function submitForm(evt) {
       evt.preventDefault()
       setErr([]);
@@ -27,13 +32,26 @@ function Register() {
       }
       setErr(errors);
       if (errors.length > 0) return;
-
+      let formD = new FormData;
+      formD.append('username', regForm.username)
+      formD.append('password', regForm.password)
+      formD.append('email', regForm.email)
+      formD.append('phone', regForm.phone)
+      fetch(baseUrl+'registration', {
+         method: 'POST',
+         body: formD
+      }).then(res=>res.json())
+      .then(res=>{
+          if (res.status) {
+              window.location.href=window.location.origin+'/login?msg=successfully Registered';
+          } else {
+            errors.push(res.data)
+            setErr(errors);
+            console.log(errors)
+          }
+      })
       console.log(regForm, 'form submit');
     }
-
-    useEffect(()=>{
-      console.log(regForm);
-    }, [regForm])
 
     return (<div className="d-flex justify-content-center align-items-center h-90vh "> 
               <div className="custom-wrapper">
