@@ -11,6 +11,13 @@ const AppPro = (props) => {
         setauth(getData('auth'));
     }, []);
 
+
+    function loginAuth(auth) {
+        console.log(auth, 'asdfasdaaaaaaaaaaaa')
+        setauth(auth);
+        putData(auth, 'auth');
+    }
+
     function logout() {
         let formD = new FormData;
         formD.append('id', auth.id);
@@ -30,7 +37,8 @@ const AppPro = (props) => {
 
     return (<AppContext.Provider value={{
         auth,
-        logout
+        logout,
+        loginAuth
     }}> 
          {props.children}
     </AppContext.Provider>);

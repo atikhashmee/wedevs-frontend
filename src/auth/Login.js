@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import {getParameterByName, putData} from '../utils/Util';
+import React, { useContext, useEffect, useState } from 'react'
+import {getParameterByName, putData, AppContext} from '../utils/Util';
 
 let baseUrl = process.env.REACT_APP_.BASE_URL;
 
@@ -9,6 +9,7 @@ function Login() {
       password: '',
       rememberMe: false
     });
+    const {loginAuth} = useContext(AppContext)
     const [err, setErr] = useState([]);
     const [succesMessage, setSuccesMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -46,6 +47,7 @@ function Login() {
          if (res.status) {
             putData(res.data, 'auth');
             setSuccesMessage(res.message+" , Please wait, we will redirect you")
+            loginAuth(res.data);
             setTimeout(() => {
                window.location.href = window.location.origin+"/"
             }, 1000);
