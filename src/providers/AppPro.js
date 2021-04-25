@@ -30,6 +30,7 @@ const AppPro = (props) => {
             auth.email = "";
             auth.phone = "";
             auth.username = "";
+            auth.role = "";
             putData(auth, 'auth');
             window.location.href = window.location.origin+'/';
         });

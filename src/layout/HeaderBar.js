@@ -10,6 +10,8 @@ import Home from '../Home';
 import Login from '../auth/Login'
 import Register from '../auth/Register'
 import {AppContext} from '../utils/Util'
+import Dashboard  from '../admin/Dashboard'
+import Products  from '../admin/Products'
 
 function HeaderBar() {
   const {auth, logout} = useContext(AppContext);
@@ -28,6 +30,11 @@ function HeaderBar() {
                     <li className="nav-item">
                         <Link to="/" className="nav-link active">Home</Link>
                     </li>
+                    {(auth && auth.auth_token !== "" &&  auth.role==='admin') && <>
+                      <li className="nav-item">
+                            <Link to="/products" className="nav-link ">Products</Link>
+                        </li>
+                    </>}
                     <li className="nav-item">
                         <Link to="/orders" className="nav-link ">Orders</Link>
                     </li>
@@ -57,10 +64,14 @@ function HeaderBar() {
 
         <Switch>
           <Route exact path="/">
-                <Home />
+                {(auth.role=="user" || auth.role=="") && <Home />}
+                {auth.role=="admin" && <Dashboard />}
           </Route>
           <Route path="/orders">
             <Orders />
+          </Route>
+          <Route path="/products">
+            <Products />
           </Route>
           <Route path="/login">
             <Login />
