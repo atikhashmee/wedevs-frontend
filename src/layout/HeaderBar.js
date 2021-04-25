@@ -7,7 +7,7 @@ import {
   } from "react-router-dom";
 import Dashborad  from '../Dashborad';
 import Orders  from '../Orders';
-import Home from '../components/Home';
+import Home from '../Home';
 import Login from '../auth/Login'
 import Register from '../auth/Register'
 

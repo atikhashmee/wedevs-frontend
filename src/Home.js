@@ -1,10 +1,10 @@
 import React from 'react'
-import Product from './Product'
+import Product from './components/Product'
 function Home() {
     return (
-        <div className="row">
-          {Array(5).fill(0).map((item, index)=>(
-            <div className="col-md-4">
+        <div className="row gx-5 gy-5">
+          {Array(50).fill(0).map((item, index)=>(
+            <div className="col-md-3">
               <Product key={index} />
             </div>
           ))}

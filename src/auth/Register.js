@@ -1,30 +1,73 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Register() {
-    return (<form>
-  <div className="row mb-3">
-    <label for="inputEmail3" className="col-sm-2 col-form-label">Email</label>
-    <div className="col-sm-10">
-      <input type="email" className="form-control" id="inputEmail3" />
-    </div>
-  </div>
-  <div className="row mb-3">
-    <label for="inputPassword3" className="col-sm-2 col-form-label">Password</label>
-    <div className="col-sm-10">
-      <input type="password" className="form-control" id="inputPassword3" />
-    </div>
-  </div>
-  <div className="row mb-3">
-    <div className="col-sm-10 offset-sm-2">
-      <div className="form-check">
-        <input className="form-check-input" type="checkbox" id="gridCheck1" />
-        <label className="form-check-label" for="gridCheck1">
-          Example checkbox
-        </label>
-      </div>
-    </div>
-  </div>
-  <button type="submit" className="btn btn-primary">Sing up</button>
-</form>);
+    const [regForm, setRegForm] = useState({
+      username: '',
+      email: '',
+      password: '',
+      phone: '',
+    });
+
+    const [err, setErr] = useState([]);
+
+    function handleInput(obj) {
+      setRegForm({...regForm,  [obj.currentTarget.name]: obj.currentTarget.value});
+    }
+
+    function submitForm(evt) {
+      evt.preventDefault()
+      setErr([]);
+      let errors = [];
+      if (regForm.username == '') {
+        errors.push('Username can not be empty')
+      }
+      
+      if (regForm.password == '') {
+        errors.push('Password can not be empty')
+      }
+      setErr(errors);
+      if (errors.length > 0) return;
+
+      console.log(regForm, 'form submit');
+    }
+
+    useEffect(()=>{
+      console.log(regForm);
+    }, [regForm])
+
+    return (<div className="d-flex justify-content-center align-items-center h-100vh"> 
+              <form className="reg-form-width" onSubmit={submitForm} method="POST">
+                <div className="row mb-2">
+                  <label htmlFor="username" className="col-form-label">Username <span className="text-danger">*</span> </label>
+                  <div className="col-sm-10">
+                    <input type="text" className="form-control" onChange={(obj)=>handleInput(obj)} id="username" name="username" required  />
+                  </div>
+                </div>
+                <div className="row mb-2">
+                  <label htmlFor="email" className="col-form-label">Email</label>
+                  <div className="col-sm-10">
+                    <input type="email" className="form-control" onChange={(obj)=>handleInput(obj)}  id="email" name="email" />
+                  </div>
+                </div>
+                <div className="row mb-2">
+                  <label htmlFor="password" className="col-form-label">Passowrd <span className="text-danger">*</span></label>
+                  <div className="col-sm-10">
+                    <input type="password" className="form-control" onChange={(obj)=>handleInput(obj)} id="password" name="password"  required />
+                  </div>
+                </div>
+                <div className="row mb-2">
+                  <label htmlFor="phone" className="col-form-label">Phone</label>
+                  <div className="col-sm-10">
+                    <input type="text" className="form-control" onChange={(obj)=>handleInput(obj)} id="phone" name="phone" />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-10">
+                      {err.length > 0 && err.map((msg, ind)=>(<p key={ind} className="text-danger">{msg}</p>))}
+                      <button type="submit" className="btn btn-primary">Sing up</button>
+                  </div>
+                </div>
+              </form> 
+            </div>);
 }
 export default Register;
