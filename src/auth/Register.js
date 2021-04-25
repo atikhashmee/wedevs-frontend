@@ -35,7 +35,9 @@ function Register() {
       console.log(regForm);
     }, [regForm])
 
-    return (<div className="d-flex justify-content-center align-items-center h-100vh"> 
+    return (<div className="d-flex justify-content-center align-items-center h-90vh "> 
+              <div className="custom-wrapper">
+               <h3 className="text-center">User Registration</h3>
               <form className="reg-form-width" onSubmit={submitForm} method="POST">
                 <div className="row mb-2">
                   <label htmlFor="username" className="col-form-label">Username <span className="text-danger">*</span> </label>
@@ -68,6 +70,7 @@ function Register() {
                   </div>
                 </div>
               </form> 
+              </div>
             </div>);
 }
 export default Register;
