@@ -13,6 +13,7 @@ import {AppContext} from '../utils/Util'
 import Dashboard  from '../admin/Dashboard'
 import Products  from '../admin/Products'
 import Categories  from '../admin/Categories'
+import Checkout from '../Checkout'
 
 function HeaderBar() {
   const {auth, logout} = useContext(AppContext);
@@ -67,6 +68,9 @@ function HeaderBar() {
           </Route>
           <Route path="/orders">
             <Orders />
+          </Route>
+          <Route path="/checkout">
+            <Checkout />
           </Route>
           <Route path="/products">
             <Products />

@@ -1,10 +1,22 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import Product from './components/Product'
+import {getData, putData, AppContext} from './utils/Util'
+
 let baseUrl = process.env.REACT_APP_.BASE_URL;
 function Home() {
     const [products, setproducts] = useState([]);
     const [cartItems, setcartItems] = useState([]);
     const [totalCard, settotalCard] = useState(0);
+
+    const {auth} = useContext(AppContext)
+
+    let checkoutUrl = auth.auth_token === "" ? '/login' : '/checkout'
+    let storedData = getData('cart_items');
+
+    useEffect(()=>{
+      setcartItems(storedData)
+    }, [])
+
     useEffect(()=>{
       getProduct();
     }, [])
@@ -35,7 +47,6 @@ function Home() {
         if (is_exist === 1) {
           pItem.quantity = pItem.quantity + 1
         } else {
-          console.log('comes here')
           pItem = {...product};
           pItem.quantity = 1;
           cartItemDup.push(pItem);
@@ -55,6 +66,7 @@ function Home() {
 
     useEffect(()=>{
       settotalCard(cartItems.reduce((total, item)=>total+(item.quantity*item.price), 0))
+      putData(cartItems, 'cart_items')
     }, [cartItems])
 
 
@@ -96,7 +108,7 @@ function Home() {
               <div className="card-footer">
                 <div className="d-flex justify-content-between">
                   <p>Total ${totalCard}</p>
-                  <button className="btn btn-block btn-primary">Checkout</button>
+                  <button type="button" onClick={()=>{window.location.href=checkoutUrl}} className="btn btn-block btn-primary">Checkout</button>
                 </div>
                 <div className="text-center">
                   <a  href="#" onClick={()=>{deleteAllItem()}}>Clear all item</a>
