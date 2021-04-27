@@ -12,6 +12,7 @@ import Register from '../auth/Register'
 import {AppContext} from '../utils/Util'
 import Dashboard  from '../admin/Dashboard'
 import Products  from '../admin/Products'
+import Categories  from '../admin/Categories'
 
 function HeaderBar() {
   const {auth, logout} = useContext(AppContext);
@@ -34,6 +35,9 @@ function HeaderBar() {
                       <li className="nav-item">
                             <Link to="/products" className="nav-link ">Products</Link>
                         </li>
+                      <li className="nav-item">
+                            <Link to="/category" className="nav-link ">Category</Link>
+                        </li>
                     </>}
                     <li className="nav-item">
                         <Link to="/orders" className="nav-link ">Orders</Link>
@@ -45,16 +49,10 @@ function HeaderBar() {
                       <li className="nav-item">
                           <Link to="/register" className="nav-link ">Register</Link>
                       </li>
-
                     </>)}
-                    {(auth && auth.auth_token !== "") && <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Account
-                        </a>
-                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a className="dropdown-item" href="#">Profile</a></li>
-                        <li><a className="dropdown-item" onClick={()=>{logout()}}  href="Javascript:void(0)" >Logout</a></li>
-                        </ul>
+                   
+                    {(auth && auth.auth_token !== "") &&  <li className="nav-item">
+                          <a className="nav-link" onClick={()=>{logout()}}  href=""  >Logout</a>
                     </li>}
                     
                 </ul>
@@ -72,6 +70,9 @@ function HeaderBar() {
           </Route>
           <Route path="/products">
             <Products />
+          </Route>
+          <Route path="/category">
+            <Categories />
           </Route>
           <Route path="/login">
             <Login />

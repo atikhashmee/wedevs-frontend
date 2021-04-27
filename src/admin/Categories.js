@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, useState } from 'react';
 import {Modal} from 'bootstrap'
 let baseUrl = process.env.REACT_APP_.BASE_URL;
-const Products = () => {
+const Categories = () => {
     let modalRef = createRef();
     const [products, setproducts] = useState([]);
     const [currentProduct, setcurrentProduct] = useState({});
@@ -18,7 +18,7 @@ const Products = () => {
         if (window.confirm('Are you sure?')) {
             let formD = new FormData()
             formD.append('id', proudct.id)
-            fetch(baseUrl+'products/delete', {
+            fetch(baseUrl+'categories/delete', {
                 method: 'POST',
                 body: formD
              }).then(res=>res.json())
@@ -29,8 +29,6 @@ const Products = () => {
              })
         }
     }
-
-    var testModal;
     function showModal() {
         var myModalEl = modalRef.current
         var myModal = new Modal(myModalEl, {});
@@ -54,7 +52,7 @@ const Products = () => {
     },[])
 
     function getProductData() {
-        fetch(baseUrl+'products/index')
+        fetch(baseUrl+'categories')
         .then(res=>res.json())
         .then(res=>{
             if (res.status) {
@@ -67,7 +65,7 @@ const Products = () => {
             <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div className="modal-content">
                 <div className="modal-header">
-                    <h5 className="modal-title" id="exampleModalLabel">Product Add</h5>
+                    <h5 className="modal-title" id="exampleModalLabel">Category Add</h5>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
@@ -81,7 +79,7 @@ const Products = () => {
         </div>
         <div className="card">
             <div className="card-header d-flex justify-content-between">
-                <div><h5>Product Management</h5></div>
+                <div><h5>Category</h5></div>
                 <div>
                     <button type="button" onClick={()=>{showModal()}} className="btn btn-success">Create New</button>
                 </div>
@@ -98,23 +96,12 @@ const Products = () => {
 }
 
 const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
-    const [categories, setcategories] = useState([]);
     const [productForm, setproductForm] = useState({
         name: '',
-        description: '',
-        sku: '',
-        category_id: '',
-        price: '',
-        image: null
     });
     function resetform() {
         setproductForm({
             name: '',
-            description: '',
-            sku: '',
-            category_id: '',
-            price: '',
-            image: null
         })  
     }
     useEffect(() => {
@@ -122,20 +109,6 @@ const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
             resetform();
         }
     }, [isEdit])
-
-    useEffect(()=>{
-        getFetchData();
-    }, [])
-
-    function getFetchData() {
-        fetch(baseUrl+'categories')
-        .then(res=>res.json())
-        .then(res=>{
-            if (res.status) {
-                setcategories(res.data);
-            }
-        })
-    }
     
     const [err, setErr] = useState([]);
     function handleInput(obj) {
@@ -190,10 +163,10 @@ const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
         for (const itemKey in productForm) {
             formD.append(itemKey, productForm[itemKey])
         }
-        let urrl = baseUrl+'products/store';
+        let urrl = baseUrl+'categories/store';
         if (isEdit) {
             formD.append('id', currentProduct.id)
-            urrl = baseUrl+'products/update';
+            urrl = baseUrl+'categories/update';
         }
         fetch(urrl, {
            method: 'POST',
@@ -213,43 +186,12 @@ const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
     }
     return (
         <form onSubmit={(evt)=>{submitForm(evt)}} method="POST" >
-                        <div className="row mb-3">
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="product_name" className="form-label">Product Name</label>
-                                    <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.name} className="form-control" name="name" id="product_name" />
-                                </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="sku" className="form-label">SKU</label>
-                                    <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.sku} className="form-control" name="sku" id="sku" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="description" className="form-label">Description</label>
-                            <textarea  onChange={(obj)=>handleInput(obj)} className="form-control" value={productForm.description} name="description" id="description"></textarea>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="category_id" className="form-label">Category</label>
-                            <select onChange={(obj)=>handleInput(obj)} defaultValue={productForm.category_id} className="form-select" id="category_id" name="category_id">
-                                <option value="">Select a category</option>
-                                {categories.length > 0 && categories.map((ite,ind)=>(
-                                    <option key={ind} value={ite.id}>{ite.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="price" className="form-label">Price</label>
-                            <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.price} className="form-control" name="price" id="price" />
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="formFileLg" className="form-label">Product Image</label>
-                            <input className="form-control form-control-lg" onChange={(obj)=>handleInput(obj)} id="formFileLg" name="image" type="file" />
-                        </div>
-                        <button type="submit" className="btn btn-primary">Store</button>
-                    </form>
+            <div className="form-group">
+                <label htmlFor="product_name" className="form-label">Category Name</label>
+                <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.name} className="form-control" name="name" id="product_name" />
+            </div>
+            <button type="submit" className="btn btn-primary">Store</button>
+        </form>
        
     );
 }
@@ -263,9 +205,6 @@ const ProductLists = ({products, loadEditable, deleteData}) =>{
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>Description</th>
-                        <th>Image</th>
-                        <th>Price</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -274,9 +213,6 @@ const ProductLists = ({products, loadEditable, deleteData}) =>{
                          <tr key={idd}>
                              <td>{item.id}</td>
                              <td>{item.name}</td>
-                             <td>{item.description}</td>
-                             <td>{item.image}</td>
-                             <td>{item.price}</td>
                              <td>
                                  <button type="button" onClick={()=>{loadEditable(item)}} className="btn btn-sm btn-warning">Edit</button>
                                  <button type="button" onClick={()=>{deleteData(item)}} className="btn btn-sm btn-danger">Delete</button>
@@ -288,4 +224,4 @@ const ProductLists = ({products, loadEditable, deleteData}) =>{
         );
 }
  
-export default Products;
+export default Categories;

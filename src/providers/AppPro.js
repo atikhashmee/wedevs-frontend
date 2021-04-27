@@ -19,7 +19,7 @@ const AppPro = (props) => {
     }
 
     function logout() {
-        let formD = new FormData;
+        let formD = new FormData();
         formD.append('id', auth.id);
         fetch(baseUrl+'logout', {
             method: 'POST',
