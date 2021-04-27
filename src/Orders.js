@@ -48,7 +48,7 @@ function Orders() {
                             <td>{item.created_at}</td>
                             <td> 
                                 <button className="btn btn-sm btn-primary">Detail</button> 
-                                <div className="btn-group">
+                                {auth.role==='admin'&&  <div className="btn-group">
                                     <button type="button" className="btn btn-danger">Change Status</button>
                                     <button type="button" className="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                         <span className="visually-hidden">Toggle Dropdown</span>
@@ -58,7 +58,7 @@ function Orders() {
                                         <li><a className="dropdown-item" href="#">Another action</a></li>
                                         <li><a className="dropdown-item" href="#">Something else here</a></li>
                                     </ul>
-                                </div>
+                                </div>}
                             </td>
                         </tr>
                     ))}

@@ -14,6 +14,7 @@ import Dashboard  from '../admin/Dashboard'
 import Products  from '../admin/Products'
 import Categories  from '../admin/Categories'
 import Checkout from '../Checkout'
+import ProductDetail from '../ProductDetail'
 
 function HeaderBar() {
   const {auth, logout} = useContext(AppContext);
@@ -65,8 +66,8 @@ function HeaderBar() {
 
         <Switch>
           <Route exact path="/">
-                {(auth.role=="user" || auth.role=="") && <Home />}
-                {auth.role=="admin" && <Dashboard />}
+              {(auth.role=="user" || auth.role=="") && <Home />}
+              {auth.role=="admin" && <Dashboard />}
           </Route>
           <Route path="/orders">
             <Orders />
@@ -76,6 +77,9 @@ function HeaderBar() {
           </Route>
           <Route path="/products">
             <Products />
+          </Route>
+          <Route path="/product/:id">
+            <ProductDetail />
           </Route>
           <Route path="/category">
             <Categories />

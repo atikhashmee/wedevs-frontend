@@ -24,3 +24,5 @@ export function getData(name=null) {
 }
 
 export const AppContext = React.createContext();
+
+export const CartContext = React.createContext();

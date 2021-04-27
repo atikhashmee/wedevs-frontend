@@ -6,11 +6,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 import reportWebVitals from './reportWebVitals';
 import AppPro from './providers/AppPro'
+import CartPro from './providers/CartPro'
 
 ReactDOM.render(
   <React.StrictMode>
     <AppPro>
-      <App />
+      <CartPro>
+        <App />
+      </CartPro>
     </AppPro>
   </React.StrictMode>,
   document.getElementById('root')
