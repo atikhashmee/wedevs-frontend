@@ -39,6 +39,22 @@
 .reg-form-width {
   margin-left: 50px;
 }
+.each_item {
+  position: relative;
+  border-bottom: 1px solid #383131;
+  padding: 5px;
+  margin-bottom: 5px;
+  box-shadow: 4px 2px 3px #b9b9b97a;
+}
+.closeButton {
+  position: absolute;
+  right: 7px;
+  top: 4px;
+  color: red;
+  border: 1px solid red;
+  padding: 2px;
+  cursor: pointer;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
