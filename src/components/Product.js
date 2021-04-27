@@ -10,7 +10,7 @@ function Product({product, addToCart}) {
                     price ${product.price}
                 </p>
                 <div className="d-flex justify-content-between">
-                    <a href="#" onClick={()=>{addToCart(product)}} className="btn btn-primary">Add to Cart</a>
+                    <button  onClick={()=>{addToCart(product)}} className="btn btn-primary">Add to Cart</button>
                     <a href="#" className="btn btn-primary">View Detail</a>
                 </div>
             </div>

@@ -51,9 +51,15 @@
   right: 7px;
   top: 4px;
   color: red;
-  border: 1px solid red;
   padding: 2px;
   cursor: pointer;
+}
+.help-center {
+  height: 100px;
+  min-height: 100px;
+}
+.help-center p{
+  line-height: 5px;
 }
 @keyframes App-logo-spin {
   from {
