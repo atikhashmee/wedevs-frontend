@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+
 let baseUrl = process.env.REACT_APP_.BASE_URL;
 
 function Register() {
@@ -84,7 +86,10 @@ function Register() {
                 <div className="row">
                   <div className="col-sm-10">
                       {err.length > 0 && err.map((msg, ind)=>(<p key={ind} className="text-danger">{msg}</p>))}
-                      <button type="submit" className="btn btn-primary">Sing up</button>
+                      <div className="d-flex justify-content-between">
+                        <Link to="/login" className="btn btn-primary">Sign in</Link>
+                        <button type="submit" className="btn btn-primary">Sing up</button>
+                      </div>
                   </div>
                 </div>
               </form> 

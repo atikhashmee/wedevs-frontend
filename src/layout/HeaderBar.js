@@ -40,9 +40,11 @@ function HeaderBar() {
                             <Link to="/category" className="nav-link ">Category</Link>
                         </li>
                     </>}
-                    <li className="nav-item">
-                        <Link to="/orders" className="nav-link ">Orders</Link>
-                    </li>
+                    {auth && auth.auth_token !== "" && 
+                      <li className="nav-item">
+                          <Link to="/orders" className="nav-link ">Orders</Link>
+                      </li>
+                    }
                     {(auth && auth.auth_token == "") && ( <>
                       <li className="nav-item">
                           <Link to="/login" className="nav-link ">Login</Link>

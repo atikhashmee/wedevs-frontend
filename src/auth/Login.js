@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import {getParameterByName, putData, AppContext} from '../utils/Util';
 
 let baseUrl = process.env.REACT_APP_.BASE_URL;
@@ -88,8 +89,11 @@ function Login() {
           <div className="row mb-3">
              <label htmlFor="inputPassword3" className="col-sm-2 col-form-label"></label>
              <div className="col-sm-10">  
-             {err.length > 0 && err.map((msg, ind)=>(<p key={ind} className="text-danger">{msg}</p>))}
-                  <button type="submit" className="btn btn-primary">Sign in</button>
+                  {err.length > 0 && err.map((msg, ind)=>(<p key={ind} className="text-danger">{msg}</p>))}
+                  <div className="d-flex justify-content-between">
+                     <Link to="/register" className="btn btn-primary">Sign Up</Link>
+                     <button type="submit" className="btn btn-primary">Sign in</button>
+                  </div>
              </div>
           </div>
        </form>
