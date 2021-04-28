@@ -13,6 +13,7 @@ import {AppContext} from '../utils/Util'
 import Dashboard  from '../admin/Dashboard'
 import Products  from '../admin/Products'
 import Categories  from '../admin/Categories'
+import Users  from '../admin/Users'
 import Checkout from '../Checkout'
 import ProductDetail from '../ProductDetail'
 import OrderDetail from '../OrderDetail'
@@ -36,8 +37,11 @@ function HeaderBar() {
                     </li>
                     {(auth && auth.auth_token !== "" &&  auth.role==='admin') && <>
                       <li className="nav-item">
+                            <Link to="/users" className="nav-link ">Users</Link>
+                      </li>
+                      <li className="nav-item">
                             <Link to="/products" className="nav-link ">Products</Link>
-                        </li>
+                      </li>
                       <li className="nav-item">
                             <Link to="/category" className="nav-link ">Category</Link>
                         </li>
@@ -78,6 +82,9 @@ function HeaderBar() {
           </Route>
           <Route path="/products">
             <Products />
+          </Route>
+          <Route path="/users">
+            <Users />
           </Route>
           <Route path="/product/:id">
             <ProductDetail />
