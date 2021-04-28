@@ -1,5 +1,7 @@
 import React, { createRef, useEffect, useState } from 'react';
 import {Modal} from 'bootstrap'
+import isImage from 'is-image'
+
 let baseUrl = process.env.REACT_APP_.BASE_URL;
 const Products = () => {
     let modalRef = createRef();
@@ -7,6 +9,7 @@ const Products = () => {
     const [currentProduct, setcurrentProduct] = useState({});
     const [isEdit, setisEdit] = useState(false);
     const [modalObj, setmodalObj] = useState(null);
+    const [successMesg, setsuccessMesg] = useState("");
 
     function loadEditable(proudct) {
         setcurrentProduct(proudct)
@@ -24,6 +27,7 @@ const Products = () => {
              }).then(res=>res.json())
              .then(res=>{
                  if (res.status) {
+                    setsuccessMesg('Product has been deleted')
                     getProductData();
                  }
              })
@@ -71,7 +75,12 @@ const Products = () => {
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                   <ProductForm isEdit={isEdit} getProductData={getProductData} hideModal={hideModal} currentProduct={currentProduct}  />
+                   <ProductForm 
+                   isEdit={isEdit}
+                   setsuccessMesg={setsuccessMesg}
+                   getProductData={getProductData} 
+                   hideModal={hideModal} 
+                   currentProduct={currentProduct}  />
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -87,18 +96,19 @@ const Products = () => {
                 </div>
             </div>
             <div className="card-body">
-            <div className="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success!</strong> You should check in on some of those fields below.
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <ProductLists products={products} deleteData={deleteData}  loadEditable={loadEditable} />
+                {successMesg !== "" && <div className="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> {successMesg}.
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>}
+                <ProductLists products={products} deleteData={deleteData}  loadEditable={loadEditable} />
             </div>
         </div>
     </> );
 }
 
-const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
+const ProductForm = ({getProductData, setsuccessMesg, hideModal, currentProduct, isEdit}) => {
     const [categories, setcategories] = useState([]);
+    const productImage = createRef();
     const [productForm, setproductForm] = useState({
         name: '',
         description: '',
@@ -139,7 +149,13 @@ const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
     
     const [err, setErr] = useState([]);
     function handleInput(obj) {
-        setproductForm({...productForm,  [obj.currentTarget.name]: obj.currentTarget.value});
+        let inputName = obj.currentTarget.name;
+        let inputVal = obj.currentTarget.value;
+        if (inputName==='image') {
+            inputVal = productImage.current.files[0]
+            console.log(inputVal, 'asdf')
+        }
+        setproductForm({...productForm,  [inputName]: inputVal});
     }
 
     useEffect(()=>{
@@ -204,6 +220,11 @@ const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
                 getProductData()
                 hideModal();
                 resetform();
+                if (isEdit) {
+                    setsuccessMesg('Product has updated')
+                } else {
+                    setsuccessMesg('Product has saved')
+                }
             } else {
               errors.push(res.data)
               setErr(errors);
@@ -246,7 +267,7 @@ const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
                         </div>
                         <div className="form-group mb-3">
                             <label htmlFor="formFileLg" className="form-label">Product Image</label>
-                            <input className="form-control form-control-lg" onChange={(obj)=>handleInput(obj)} id="formFileLg" name="image" type="file" />
+                            <input ref={productImage} className="form-control form-control-lg" onChange={(obj)=>handleInput(obj)} id="formFileLg" name="image" type="file" />
                         </div>
                         <button type="submit" className="btn btn-primary">Store</button>
                     </form>
@@ -255,37 +276,38 @@ const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
 }
 
 const ProductLists = ({products, loadEditable, deleteData}) =>{
-        
-
-        return (
-            <table className="table table-bordered border-primary">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Image</th>
-                        <th>Price</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                 <tbody>
-                     {products.map((item,idd)=>(
-                         <tr key={idd}>
-                             <td>{item.id}</td>
-                             <td>{item.name}</td>
-                             <td>{item.description}</td>
-                             <td>{item.image}</td>
-                             <td>{item.price}</td>
-                             <td>
-                                 <button type="button" onClick={()=>{loadEditable(item)}} className="btn btn-sm btn-warning">Edit</button>
-                                 <button type="button" onClick={()=>{deleteData(item)}} className="btn btn-sm btn-danger">Delete</button>
-                             </td>
-                         </tr>
-                     ))}
-                 </tbody>
-          </table>
-        );
+    return (
+        <table className="table table-bordered border-primary">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {products.map((item,idd)=>(
+                <tr key={idd}>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.description}</td>
+                    <td>
+                        {!isImage(item.image_url) && <img  src="https://via.placeholder.com/80" />}
+                        {isImage(item.image_url) && <img  width="80" height="80" src={item.image_url} />}
+                    </td>
+                    <td>{item.price}</td>
+                    <td>
+                        <button type="button" onClick={()=>{loadEditable(item)}} className="btn btn-sm btn-warning">Edit</button>
+                        <button type="button" onClick={()=>{deleteData(item)}} className="btn btn-sm btn-danger">Delete</button>
+                    </td>
+                </tr>
+                ))}
+            </tbody>
+        </table>
+    );
 }
  
 export default Products;

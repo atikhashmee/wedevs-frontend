@@ -20,7 +20,7 @@ function Home() {
     }
     return (<div className="row gx-0 gy-0">
         <div className="col-md-9">
-          <div className="row">
+          <div className="row gy-3">
             {products.length> 0 &&  products.map((item, index)=>(
               <div className="col-md-4" key={index}>
                 <Product  product={item} />

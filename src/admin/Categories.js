@@ -7,6 +7,7 @@ const Categories = () => {
     const [currentProduct, setcurrentProduct] = useState({});
     const [isEdit, setisEdit] = useState(false);
     const [modalObj, setmodalObj] = useState(null);
+    const [successMesg, setsuccessMesg] = useState("");
 
     function loadEditable(proudct) {
         setcurrentProduct(proudct)
@@ -24,6 +25,7 @@ const Categories = () => {
              }).then(res=>res.json())
              .then(res=>{
                  if (res.status) {
+                    setsuccessMesg('Category has been deleted')
                     getProductData();
                  }
              })
@@ -69,7 +71,8 @@ const Categories = () => {
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
-                   <ProductForm isEdit={isEdit} getProductData={getProductData} hideModal={hideModal} currentProduct={currentProduct}  />
+                   <ProductForm isEdit={isEdit} 
+                   setsuccessMesg={setsuccessMesg} getProductData={getProductData} hideModal={hideModal} currentProduct={currentProduct}  />
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -85,17 +88,17 @@ const Categories = () => {
                 </div>
             </div>
             <div className="card-body">
-            <div className="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success!</strong> You should check in on some of those fields below.
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <ProductLists products={products} deleteData={deleteData}  loadEditable={loadEditable} />
+                {successMesg !== "" && <div className="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> {successMesg}.
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>}
+                <ProductLists products={products} deleteData={deleteData}  loadEditable={loadEditable} />
             </div>
         </div>
     </> );
 }
 
-const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
+const ProductForm = ({getProductData, setsuccessMesg, hideModal, currentProduct, isEdit}) => {
     const [productForm, setproductForm] = useState({
         name: '',
     });
@@ -177,6 +180,11 @@ const ProductForm = ({getProductData, hideModal, currentProduct, isEdit}) => {
                 getProductData()
                 hideModal();
                 resetform();
+                if (isEdit) {
+                    setsuccessMesg('Category has updated')
+                } else {
+                    setsuccessMesg('Category has saved')
+                }
             } else {
               errors.push(res.data)
               setErr(errors);

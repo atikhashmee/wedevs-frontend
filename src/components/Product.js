@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import {Link} from "react-router-dom";
 import {CartContext} from '../utils/Util';
+import isImage from 'is-image'
 
 function Product({product}) {
     const {addToCart} = useContext(CartContext);
     return (
         <div className="card" style={{width: 18+'rem'}}>
-            <img src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" className="card-img-top" alt="..." />
+            {!isImage(product.image_url) && <img  className="card-img-top" src="https://via.placeholder.com/120" />}
+            {isImage(product.image_url) && <img  className="card-img-top" width="150" height="150" src={product.image_url} />}
             <div className="card-body">
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text">
