@@ -15,6 +15,7 @@ import Products  from '../admin/Products'
 import Categories  from '../admin/Categories'
 import Checkout from '../Checkout'
 import ProductDetail from '../ProductDetail'
+import OrderDetail from '../OrderDetail'
 
 function HeaderBar() {
   const {auth, logout} = useContext(AppContext);
@@ -80,6 +81,9 @@ function HeaderBar() {
           </Route>
           <Route path="/product/:id">
             <ProductDetail />
+          </Route>
+          <Route path="/order/:id">
+            <OrderDetail />
           </Route>
           <Route path="/category">
             <Categories />

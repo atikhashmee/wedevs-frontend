@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {AppContext} from './utils/Util'
+import {Link} from 'react-router-dom'
 
 let baseUrl = process.env.REACT_APP_.BASE_URL;
 function Orders() {
@@ -43,11 +44,11 @@ function Orders() {
                             <td>{item.id}</td>
                             <td>{item.tracking_id}</td>
                             {auth.role==='admin'&& <th>{item.username}</th>}
-                            <td>{item.charge}</td>
+                            <td>${item.charge}</td>
                             <td>{item.status}</td>
                             <td>{item.created_at}</td>
                             <td> 
-                                <button className="btn btn-sm btn-primary">Detail</button> 
+                                <Link to={`/order/${item.id}`} className="btn btn-sm btn-primary">Detail</Link>
                                 {auth.role==='admin'&&  <div className="btn-group">
                                     <button type="button" className="btn btn-danger">Change Status</button>
                                     <button type="button" className="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
