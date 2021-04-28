@@ -61,7 +61,7 @@ function HeaderBar() {
                     </>)}
                    
                     {(auth && auth.auth_token !== "") &&  <li className="nav-item">
-                          <a className="nav-link" onClick={()=>{logout()}}  href=""  >Logout</a>
+                          <span className="nav-link" style={{cursor: 'pointer'}} onClick={()=>{logout()}} >Logout</span>
                     </li>}
                     
                 </ul>

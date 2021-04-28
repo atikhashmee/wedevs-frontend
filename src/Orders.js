@@ -10,6 +10,10 @@ function Orders() {
         if (auth.auth_token==="") window.location.href='/login'
     }, [auth]);
     useEffect(()=>{
+        getOrders()
+    }, [])
+
+    function getOrders() {
         let formD = new FormData;
         formD.append('auth_token', auth.auth_token)
         fetch(baseUrl+'order/index', {
@@ -22,7 +26,23 @@ function Orders() {
                 setorders(res.data)
             }
         })
-    }, [])
+    }
+
+    function changeStatus(order_id, status) {
+        let formD = new FormData()
+        formD.append('order_id', order_id)
+        formD.append('status', status)
+        fetch(baseUrl+"order/update", {
+            method: 'POST',
+            body: formD
+        }).then(res=>res.json())
+        .then(res=>{
+            if (res.status) {
+                getOrders();
+            }
+        })
+    }
+
     return (
         <div>
             <h1>Orders</h1>
@@ -48,18 +68,17 @@ function Orders() {
                             <td>{item.status}</td>
                             <td>{item.created_at}</td>
                             <td> 
-                                <Link to={`/order/${item.id}`} className="btn btn-sm btn-primary">Detail</Link>
-                                {auth.role==='admin'&&  <div className="btn-group">
-                                    <button type="button" className="btn btn-danger">Change Status</button>
-                                    <button type="button" className="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span className="visually-hidden">Toggle Dropdown</span>
-                                    </button>
-                                    <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" href="#">Action</a></li>
-                                        <li><a className="dropdown-item" href="#">Another action</a></li>
-                                        <li><a className="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </div>}
+                                <div className="d-flex justify-content-between">
+                                    <Link to={`/order/${item.id}`}>Detail</Link>
+                                    {auth.role==='admin'&&  <div className="d-flex flex-column">
+                                        <div className="text-primary">Change Status</div>
+                                        <div className="d-flex">
+                                            <button type="button" onClick={()=>{changeStatus(item.id, 'Processing')}} className="btn btn-sm btn-warning">Processing</button>
+                                            <button type="button" onClick={()=>{changeStatus(item.id, 'Shipped')}} className="btn btn-sm btn-primary">Shipped</button>
+                                            <button type="button" onClick={()=>{changeStatus(item.id, 'Delivered')}} className="btn btn-sm btn-success">Delivered</button>
+                                        </div>
+                                    </div>}
+                                </div>
                             </td>
                         </tr>
                     ))}
