@@ -1,8 +1,8 @@
-# Getting Started with Create React App
+# Getting Started with Wedev FrontEnd
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
+# **Connect the backend** 
+if you are following the backend at [this](https://github.com/atikhashmee/wedevs/wiki), then just skip it.\
+Or Go to `.env` and put the backend link to `REACT_APP_.BASE_URL` variable, which is by default `http://localhost:8000/`
 
 In the project directory, you can run:
 
