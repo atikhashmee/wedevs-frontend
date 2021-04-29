@@ -234,43 +234,51 @@ const ProductForm = ({getProductData, setsuccessMesg, hideModal, currentProduct,
     }
     return (
         <form onSubmit={(evt)=>{submitForm(evt)}} method="POST" >
-                        <div className="row mb-3">
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="product_name" className="form-label">Product Name</label>
-                                    <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.name} className="form-control" name="name" id="product_name" />
-                                </div>
-                            </div>
-                            <div className="col-md-6">
-                                <div className="form-group">
-                                    <label htmlFor="sku" className="form-label">SKU</label>
-                                    <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.sku} className="form-control" name="sku" id="sku" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="description" className="form-label">Description</label>
-                            <textarea  onChange={(obj)=>handleInput(obj)} className="form-control" value={productForm.description} name="description" id="description"></textarea>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="category_id" className="form-label">Category</label>
-                            <select onChange={(obj)=>handleInput(obj)} defaultValue={productForm.category_id} className="form-select" id="category_id" name="category_id">
-                                <option value="">Select a category</option>
-                                {categories.length > 0 && categories.map((ite,ind)=>(
-                                    <option key={ind} value={ite.id}>{ite.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="price" className="form-label">Price</label>
-                            <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.price} className="form-control" name="price" id="price" />
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="formFileLg" className="form-label">Product Image</label>
-                            <input ref={productImage} className="form-control form-control-lg" onChange={(obj)=>handleInput(obj)} id="formFileLg" name="image" type="file" />
-                        </div>
-                        <button type="submit" className="btn btn-primary">Store</button>
-                    </form>
+            <div className="row mb-3">
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label htmlFor="product_name" className="form-label">Product Name</label>
+                        <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.name} className="form-control" name="name" id="product_name" />
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label htmlFor="sku" className="form-label">SKU</label>
+                        <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.sku} className="form-control" name="sku" id="sku" />
+                    </div>
+                </div>
+            </div>
+            <div className="form-group mb-3">
+                <label htmlFor="description" className="form-label">Description</label>
+                <textarea  onChange={(obj)=>handleInput(obj)} className="form-control" value={productForm.description} name="description" id="description"></textarea>
+            </div>
+            <div className="form-group mb-3">
+                <label htmlFor="category_id" className="form-label">Category</label>
+                <select onChange={(obj)=>handleInput(obj)} defaultValue={productForm.category_id} className="form-select" id="category_id" name="category_id">
+                    <option value="">Select a category</option>
+                    {categories.length > 0 && categories.map((ite,ind)=>(
+                        <option key={ind} value={ite.id}>{ite.name}</option>
+                    ))}
+                </select>
+            </div>
+            <div className="form-group mb-3">
+                <label htmlFor="price" className="form-label">Price</label>
+                <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.price} className="form-control" name="price" id="price" />
+            </div>
+            <div className="form-group mb-3">
+                <label htmlFor="formFileLg" className="form-label">Product Image</label>
+                <input ref={productImage} className="form-control form-control-lg" onChange={(obj)=>handleInput(obj)} id="formFileLg" name="image" type="file" />
+            </div>
+            {err.length > 0 && err.map((item,kk)=>(
+                <div key={kk} className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {item}.
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            ))}
+            <div className="form-group mt-3">
+                <button type="submit" className="btn btn-primary">Store</button>
+            </div>
+        </form>
        
     );
 }

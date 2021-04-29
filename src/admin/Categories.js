@@ -102,63 +102,36 @@ const ProductForm = ({getProductData, setsuccessMesg, hideModal, currentProduct,
     const [productForm, setproductForm] = useState({
         name: '',
     });
-    function resetform() {
-        setproductForm({
-            name: '',
-        })  
-    }
+    const [err, setErr] = useState([]);
+
+    
     useEffect(() => {
         if (!isEdit) {
             resetform();
         }
     }, [isEdit])
-    
-    const [err, setErr] = useState([]);
-    function handleInput(obj) {
-        setproductForm({...productForm,  [obj.currentTarget.name]: obj.currentTarget.value});
-    }
-
     useEffect(()=>{
         let proObj = {...productForm};
         if (currentProduct && 'name' in currentProduct) {
             proObj.name =  currentProduct.name;
         }
-
-        if (currentProduct && 'description' in currentProduct) {
-            proObj.description =  currentProduct.description;
-        }
-
-        if (currentProduct && 'sku' in currentProduct) {
-            proObj.sku =  currentProduct.sku;
-        }
-
-        if (currentProduct && 'category_id' in currentProduct) {
-            proObj.category_id =  currentProduct.category_id;
-        }
-
-        if (currentProduct && 'price' in currentProduct) {
-            proObj.price =  currentProduct.price;
-        }
-
-        if (currentProduct && 'image' in currentProduct) {
-            proObj.image =  currentProduct.image;
-        }
         setproductForm(proObj);
     }, [currentProduct])
+    
+    function handleInput(obj) {
+        setproductForm({...productForm,  [obj.currentTarget.name]: obj.currentTarget.value});
+    }
+    function resetform() {
+        setproductForm({
+            name: '',
+        })  
+    }
 
     function submitForm(evt) {
         evt.preventDefault()
-        setErr([]);
         let errors = [];
         if (productForm.name == '') {
-          errors.push('Username can not be empty')
-        }
-        
-        if (productForm.sku == '') {
-          errors.push('sku can not be empty')
-        }
-        if (productForm.category_id == '') {
-          errors.push('category_id can not be empty')
+          errors.push('Category name can not be empty')
         }
         setErr(errors);
         if (errors.length > 0) return;
@@ -188,7 +161,6 @@ const ProductForm = ({getProductData, setsuccessMesg, hideModal, currentProduct,
             } else {
               errors.push(res.data)
               setErr(errors);
-              console.log(errors)
             }
         })
     }
@@ -198,7 +170,15 @@ const ProductForm = ({getProductData, setsuccessMesg, hideModal, currentProduct,
                 <label htmlFor="product_name" className="form-label">Category Name</label>
                 <input type="text" onChange={(obj)=>handleInput(obj)} value={productForm.name} className="form-control" name="name" id="product_name" />
             </div>
-            <button type="submit" className="btn btn-primary">Store</button>
+            {err.length > 0 && err.map((item,kk)=>(
+                <div key={kk} className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {item}.
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            ))}
+            <div className="form-group mt-2">
+                <button type="submit" className="btn btn-primary">Store</button>
+            </div>
         </form>
        
     );
